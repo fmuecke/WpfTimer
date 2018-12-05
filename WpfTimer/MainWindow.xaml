@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTimer"
         mc:Ignorable="d"
+        WindowState="Maximized"
+        WindowStyle="None"
+        Background="#000"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <local:Countdown Grid.Row="0" x:Name="Timer"  Duration="0:0:15" MaxHeight="800" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="5" Padding="5 0" Click="Button_Pause">Start/Pause</Button>
+            <Button Margin="5" Padding="5 0" Click="Button_Reset">Reset</Button>
+            <Button Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
+        </StackPanel>
     </Grid>
 </Window>

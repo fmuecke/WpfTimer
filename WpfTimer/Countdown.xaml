@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="WpfTimer.Countdown"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfTimer"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="450" Loaded="Countdown_Loaded">
+    <Viewbox>
+
+        <Grid Width="100" Height="100">
+            <Border Background="#222" Margin="5" CornerRadius="50">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Label Foreground="#EFEEF3" Content="{Binding SecondsRemaining}" FontSize="50" Margin="0, -10, 0, 0" />
+                    <Label Foreground="#EFEEF3" Content="sec" HorizontalAlignment="Center" Margin="0, -15, 0, 0" />
+                </StackPanel>
+            </Border>
+            <Ellipse Width="91.5" Height="91.5" Fill="Transparent" Stroke="#5D605D" StrokeThickness="1.5" />
+
+            <!-- Stroke="#45d3be"
+            helles Grau: D1D2CC, EFEEF3
+            mittleres Grau: 92948F
+            rot: A93231
+            rot2: F9451D
+            rot3: DC183B
+            dunkleres rot: C63918
+            dunkel: 474949, 4F5A5F
+            Trenner: 5D605D
+
+            Crimson: DC143C
+            Firebrick: B22222
+            -->
+            <local:Arc x:Name="Arc" Center="50, 50" StartAngle="-90.0001" EndAngle="-90" Stroke="#DC142C" StrokeThickness="7" Radius="45" />
+        </Grid>
+    </Viewbox>
+</UserControl>
