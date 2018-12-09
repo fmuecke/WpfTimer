@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace WpfTimer
 {
@@ -7,24 +8,49 @@ namespace WpfTimer
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static readonly RoutedCommand PauseCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand ResetCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand FullScreenCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Pause(object sender, RoutedEventArgs e)
+        private void Button_Quit(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void PauseCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             this.Timer.Pause();
         }
 
-        private void Button_Reset(object sender, RoutedEventArgs e)
+        private void ResetCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             this.Timer.Reset();
         }
 
-        private void Button_Quit(object sender, RoutedEventArgs e)
+        private void FullScreenCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            Close();
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+                this.Visibility = Visibility.Collapsed;
+                this.Topmost = true;
+                this.WindowStyle = WindowStyle.None;
+                this.ResizeMode = ResizeMode.NoResize;
+                // re-show the window after changing style
+                this.Visibility = Visibility.Visible;
+            }
         }
     }
 }

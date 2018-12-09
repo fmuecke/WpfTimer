@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -13,7 +14,7 @@ namespace WpfTimer
     public partial class Countdown : UserControl
     {
         public static readonly DependencyProperty DurationProperty =
-            DependencyProperty.Register(nameof(Duration), typeof(Duration), typeof(Countdown), new PropertyMetadata(new Duration()));
+            DependencyProperty.Register(nameof(Duration), typeof(Duration), typeof(Countdown), new PropertyMetadata(new Duration(), OnDurationChanged));
 
         public static readonly DependencyProperty SecondsRemainingProperty =
             DependencyProperty.Register(nameof(SecondsRemaining), typeof(int), typeof(Countdown), new PropertyMetadata(0));
@@ -24,7 +25,7 @@ namespace WpfTimer
         {
             InitializeComponent();
 
-            DoubleAnimation animation = new DoubleAnimation(-89.99999, 270, Duration);
+            DoubleAnimation animation = new DoubleAnimation(-90, 270, Duration);
             Storyboard.SetTarget(animation, Arc);
             Storyboard.SetTargetProperty(animation, new PropertyPath(nameof(Arc.EndAngle)));
             _storyboard.Children.Add(animation);
@@ -72,10 +73,16 @@ namespace WpfTimer
             }
         }
 
+        private static void OnDurationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var countdown = obj as Countdown;
+            var duration = e.NewValue;
+            countdown._storyboard.Children[0].Duration = (Duration)duration;
+            countdown.Reset();
+        }
+
         private void Countdown_Loaded(object sender, RoutedEventArgs e)
         {
-            _storyboard.Children[0].Duration = Duration;
-
             if (IsVisible)
             {
                 Reset();
@@ -91,7 +98,8 @@ namespace WpfTimer
             }
 
             TimeSpan elapsedTime = cg.CurrentTime.Value;
-            SecondsRemaining = (int)Math.Ceiling((Duration.TimeSpan - elapsedTime).TotalSeconds);
+            SecondsRemaining = Duration == Duration.Automatic ? 0 :
+                (int)Math.Ceiling((Duration.TimeSpan - elapsedTime).TotalSeconds);
         }
 
         private void Storyboard_Completed(object sender, EventArgs e)
@@ -99,7 +107,22 @@ namespace WpfTimer
             if (IsVisible)
             {
                 Elapsed?.Invoke(this, EventArgs.Empty);
+                Beep();
             }
+        }
+
+        private void Beep()
+        {
+            // see: http://windowspresentationfoundationinfo.blogspot.com/2014/10/wpf-sound.html
+            SoundPlayer player = new SoundPlayer();
+            var direct = Environment.CurrentDirectory + "\\..\\..\\..\\Sounds\\395213__azumarill__door-chime.wav";
+            player.SoundLocation = direct;
+            try
+            {
+                player.Load();
+                player.Play();
+            }
+            catch (Exception E) { }
         }
     }
 }

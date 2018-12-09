@@ -8,7 +8,17 @@
         WindowState="Maximized"
         WindowStyle="None"
         Background="#000"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="450">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:MainWindow.PauseCommand" Executed="PauseCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.ResetCommand" Executed="ResetCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.FullScreenCommand" Executed="FullScreenCommandExecuted" />
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
+        <KeyBinding Command="local:MainWindow.ResetCommand" Gesture="Backspace" />
+        <KeyBinding Command="local:MainWindow.FullScreenCommand" Gesture="Esc" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -17,11 +27,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:Countdown Grid.Row="0" x:Name="Timer"  Duration="0:0:15" MaxHeight="800" />
+        <local:Countdown Grid.Row="0" x:Name="Timer" Duration="{Binding Text, ElementName=InputBox}" MaxHeight="800" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Margin="5" Padding="5 0" Click="Button_Pause">Start/Pause</Button>
-            <Button Margin="5" Padding="5 0" Click="Button_Reset">Reset</Button>
+            <!--<Button Margin="5" Padding="5 0" Click="Button_Pause">Start/Pause</Button>
+            <Button Margin="5" Padding="5 0" Click="Button_Reset">Reset</Button>-->
             <Button Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
+            <TextBox x:Name="InputBox" Text="0:0:5" Width="40" />
         </StackPanel>
     </Grid>
 </Window>
