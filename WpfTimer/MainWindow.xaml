@@ -8,7 +8,7 @@
         WindowState="Maximized"
         WindowStyle="None"
         Background="#000"
-        Title="MainWindow" Height="450" Width="450">
+        Title="WpfTimer" Height="450" Width="450">
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.PauseCommand" Executed="PauseCommandExecuted" />
         <CommandBinding Command="local:MainWindow.ResetCommand" Executed="ResetCommandExecuted" />
@@ -16,12 +16,14 @@
         <CommandBinding Command="local:MainWindow.EnterTimeCommand" Executed="EnterTimeCommandExecuted" />
         <CommandBinding Command="local:MainWindow.TimeAcceptedCommand" Executed="TimeAcceptedCommandExecuted" />
         <CommandBinding Command="local:MainWindow.HideInputBoxCommand" Executed="HideInputBoxCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.DisplayHelpCommand" Executed="DisplayHelpCommandExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
         <KeyBinding Command="local:MainWindow.ResetCommand" Gesture="Backspace" />
         <KeyBinding Command="local:MainWindow.FullScreenCommand" Gesture="Esc" />
         <KeyBinding Command="local:MainWindow.EnterTimeCommand" Gesture="F2" />
+        <KeyBinding Command="local:MainWindow.DisplayHelpCommand" Gesture="F1" />
     </Window.InputBindings>
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
@@ -54,7 +56,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -62,7 +63,9 @@
 
         <local:Countdown Grid.Row="1" x:Name="Timer" Duration="0:0:10" MaxHeight="800" IsTabStop="True" />
         <Button Grid.Row="0" HorizontalAlignment="Right" FontSize="14" Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
-        <Label Grid.Row="2" HorizontalAlignment="Right" FontSize="14" Foreground="Silver">BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time</Label>
+        <Label Grid.Row="1" x:Name="HelpText"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time</Label>
 
         <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
         <Grid x:Name="InputBox" Visibility="Collapsed" Grid.Row="1">

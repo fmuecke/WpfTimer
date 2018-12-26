@@ -20,6 +20,8 @@ namespace WpfTimer
 
         public static readonly RoutedCommand HideInputBoxCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand DisplayHelpCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +34,7 @@ namespace WpfTimer
 
         private void PauseCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            HideHelpText();
             this.Timer.Pause();
         }
 
@@ -77,6 +80,28 @@ namespace WpfTimer
         private void HideInputBoxCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             HideInputBox();
+        }
+
+        private void DisplayHelpCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (HelpText.Visibility == Visibility.Visible)
+            {
+                HideHelpText();
+            }
+            else
+            {
+                ShowHelpText();
+            }
+        }
+
+        private void ShowHelpText()
+        {
+            HelpText.Visibility = Visibility.Visible;
+        }
+
+        private void HideHelpText()
+        {
+            HelpText.Visibility = Visibility.Collapsed;
         }
 
         private void AcceptNewTime()
