@@ -154,8 +154,10 @@ namespace WpfTimer
         {
             // see: http://windowspresentationfoundationinfo.blogspot.com/2014/10/wpf-sound.html
             SoundPlayer player = new SoundPlayer();
-            var direct = Environment.CurrentDirectory + "\\..\\..\\..\\Sounds\\395213__azumarill__door-chime.wav";
-            player.SoundLocation = direct;
+            //var file = Environment.CurrentDirectory + "\\..\\..\\..\\Sounds\\395213__azumarill__door-chime.wav";
+            //player.SoundLocation = file;
+            player.Stream = Properties.Resources._395213__azumarill__door_chime;
+
             try
             {
                 player.Load();

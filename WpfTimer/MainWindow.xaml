@@ -38,7 +38,7 @@
                             </Trigger>-->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Cursor" Value="Hand" />
-                                <Setter Property="Foreground" Value="Blue" />
+                                <Setter Property="Foreground" Value="Red" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="False">
                                 <Setter Property="Cursor" Value="Hand" />
@@ -52,21 +52,20 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:Countdown Grid.Row="0" x:Name="Timer" Duration="0:0:10" MaxHeight="800" IsTabStop="True" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!--<TextBox x:Name="InputBox" Text="0:0:5" Width="40" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Silver" TextAlignment="Center" VerticalAlignment="Center" />-->
-            <Label Foreground="SlateGray">BACKSPACE:Reset | SPACE:Start/Stop | ESC:Toggle screen | F2:Edit time</Label>
-            <!--<Button Margin="5" Padding="5 0" Command="{Binding PauseCommand}">Start/Pause</Button>-->
-            <Button Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
-        </StackPanel>
+
+        <local:Countdown Grid.Row="1" x:Name="Timer" Duration="0:0:10" MaxHeight="800" IsTabStop="True" />
+        <Button Grid.Row="0" HorizontalAlignment="Right" FontSize="14" Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
+        <Label Grid.Row="2" HorizontalAlignment="Right" FontSize="14" Foreground="Silver">BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time</Label>
+
         <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
-        <Grid x:Name="InputBox" Visibility="Collapsed">
+        <Grid x:Name="InputBox" Visibility="Collapsed" Grid.Row="1">
             <Grid Background="Black" Opacity="0.5" />
             <Border MinWidth="120" MinHeight="65" Background="AliceBlue" BorderBrush="SlateGray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel>
