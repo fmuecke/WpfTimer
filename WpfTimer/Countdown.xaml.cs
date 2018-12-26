@@ -20,7 +20,7 @@ namespace WpfTimer
             DependencyProperty.Register(nameof(SecondsRemaining), typeof(int), typeof(Countdown), new PropertyMetadata(0));
 
         public static readonly DependencyProperty TimeRemainingProperty =
-            DependencyProperty.Register(nameof(TimeRemaining), typeof(int), typeof(Countdown), new PropertyMetadata(0));
+            DependencyProperty.Register(nameof(TimeRemaining), typeof(double), typeof(Countdown), new PropertyMetadata(0.0));
 
         public static readonly DependencyProperty TimeRemainingUnitProperty =
             DependencyProperty.Register(nameof(TimeRemainingUnit), typeof(string), typeof(Countdown), new PropertyMetadata(string.Empty));
@@ -53,9 +53,9 @@ namespace WpfTimer
             set => SetValue(SecondsRemainingProperty, value);
         }
 
-        public int TimeRemaining
+        public double TimeRemaining
         {
-            get => (int)GetValue(TimeRemainingProperty);
+            get => (double)GetValue(TimeRemainingProperty);
             set => SetValue(TimeRemainingProperty, value);
         }
 
@@ -111,12 +111,12 @@ namespace WpfTimer
         {
             if (SecondsRemaining >= 3600)
             {
-                TimeRemaining = (int)SecondsRemaining / 3600;
+                TimeRemaining = Math.Round((double)SecondsRemaining / 3600, 1);
                 TimeRemainingUnit = "h";
             }
             else if (SecondsRemaining >= 60)
             {
-                TimeRemaining = (int)SecondsRemaining / 60;
+                TimeRemaining = Math.Round((double)SecondsRemaining / 60, 1);
                 TimeRemainingUnit = "min";
             }
             else
