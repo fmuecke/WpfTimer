@@ -13,12 +13,43 @@
         <CommandBinding Command="local:MainWindow.PauseCommand" Executed="PauseCommandExecuted" />
         <CommandBinding Command="local:MainWindow.ResetCommand" Executed="ResetCommandExecuted" />
         <CommandBinding Command="local:MainWindow.FullScreenCommand" Executed="FullScreenCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.EnterTimeCommand" Executed="EnterTimeCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.TimeAcceptedCommand" Executed="TimeAcceptedCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.HideInputBoxCommand" Executed="HideInputBoxCommandExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
         <KeyBinding Command="local:MainWindow.ResetCommand" Gesture="Backspace" />
         <KeyBinding Command="local:MainWindow.FullScreenCommand" Gesture="Esc" />
+        <KeyBinding Command="local:MainWindow.EnterTimeCommand" Gesture="F2" />
     </Window.InputBindings>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <TextBlock>
+                            <ContentPresenter RecognizesAccessKey="True" />
+                        </TextBlock>
+                        <ControlTemplate.Triggers>
+                            <!--<Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Blue" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Cursor" Value="Hand" />
+                                <Setter Property="Foreground" Value="Silver" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -27,12 +58,27 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <local:Countdown Grid.Row="0" x:Name="Timer" Duration="{Binding Text, ElementName=InputBox}" MaxHeight="800" />
+        <local:Countdown Grid.Row="0" x:Name="Timer" Duration="0:0:10" MaxHeight="800" IsTabStop="True" />
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <!--<Button Margin="5" Padding="5 0" Click="Button_Pause">Start/Pause</Button>
-            <Button Margin="5" Padding="5 0" Click="Button_Reset">Reset</Button>-->
+            <!--<TextBox x:Name="InputBox" Text="0:0:5" Width="40" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="Silver" TextAlignment="Center" VerticalAlignment="Center" />-->
+            <Label Foreground="SlateGray">BACKSPACE:Reset | SPACE:Start/Stop | ESC:Toggle screen | F2:Edit time</Label>
+            <!--<Button Margin="5" Padding="5 0" Command="{Binding PauseCommand}">Start/Pause</Button>-->
             <Button Margin="5" Padding="5 0" Click="Button_Quit">Quit</Button>
-            <TextBox x:Name="InputBox" Text="0:0:5" Width="40" />
         </StackPanel>
+        <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
+        <Grid x:Name="InputBox" Visibility="Collapsed">
+            <Grid Background="Black" Opacity="0.5" />
+            <Border MinWidth="120" MinHeight="65" Background="AliceBlue" BorderBrush="SlateGray" BorderThickness="2" CornerRadius="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Timer value" FontWeight="Bold" Foreground="SlateGray" HorizontalAlignment="Center" FontSize="16" />
+                    <TextBox x:Name="InputTextBox" MinWidth="75" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="local:MainWindow.TimeAcceptedCommand" Key="Enter" />
+                            <KeyBinding Command="local:MainWindow.HideInputBoxCommand" Key="Esc" />
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

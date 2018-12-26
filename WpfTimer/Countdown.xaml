@@ -7,15 +7,13 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="450" Loaded="Countdown_Loaded">
     <Viewbox>
-
         <Grid Width="100" Height="100">
-            <Border Background="#000" Margin="5" CornerRadius="50">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Label Foreground="#EFEEF3" Content="{Binding SecondsRemaining}" FontSize="50" Margin="0, -10, 0, 0" />
-                    <Label Foreground="#EFEEF3" Content="sec" HorizontalAlignment="Center" Margin="0, -15, 0, 0" />
-                </StackPanel>
-            </Border>
-            <Ellipse Width="91.5" Height="91.5" Fill="Transparent" Stroke="#5D605D" StrokeThickness="1.5" />
+            <Ellipse Width="91.5" Height="91.5" Fill="#000" Stroke="#5D605D" StrokeThickness="1.5" />
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Foreground="#EFEEF3" Content="{Binding TimeRemaining}" FontSize="50" Margin="0, -10, 0, 0" Background="{x:Null}" BorderBrush="{x:Null}" />
+                <Label Foreground="#EFEEF3" Content="{Binding TimeRemainingUnit}" HorizontalAlignment="Center" Margin="0, -15, 0, 0" />
+            </StackPanel>
+            <local:Arc x:Name="Arc" Center="50, 50" StartAngle="-90" EndAngle="-90" Stroke="#DC141F" StrokeThickness="7" Radius="45" />
 
             <!-- Stroke="#45d3be"
             helles Grau: D1D2CC, EFEEF3
@@ -30,7 +28,6 @@
             Crimson: DC143C
             Firebrick: B22222
             -->
-            <local:Arc x:Name="Arc" Center="50, 50" StartAngle="-90" EndAngle="-90" Stroke="#DC141F" StrokeThickness="7" Radius="45" />
         </Grid>
     </Viewbox>
 </UserControl>

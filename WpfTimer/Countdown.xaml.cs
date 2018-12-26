@@ -19,13 +19,19 @@ namespace WpfTimer
         public static readonly DependencyProperty SecondsRemainingProperty =
             DependencyProperty.Register(nameof(SecondsRemaining), typeof(int), typeof(Countdown), new PropertyMetadata(0));
 
+        public static readonly DependencyProperty TimeRemainingProperty =
+            DependencyProperty.Register(nameof(TimeRemaining), typeof(int), typeof(Countdown), new PropertyMetadata(0));
+
+        public static readonly DependencyProperty TimeRemainingUnitProperty =
+            DependencyProperty.Register(nameof(TimeRemainingUnit), typeof(string), typeof(Countdown), new PropertyMetadata(string.Empty));
+
         private readonly Storyboard _storyboard = new Storyboard();
 
         public Countdown()
         {
             InitializeComponent();
 
-            DoubleAnimation animation = new DoubleAnimation(-90, 270, Duration);
+            DoubleAnimation animation = new DoubleAnimation(-89.99999, 270, Duration);
             Storyboard.SetTarget(animation, Arc);
             Storyboard.SetTargetProperty(animation, new PropertyPath(nameof(Arc.EndAngle)));
             _storyboard.Children.Add(animation);
@@ -45,6 +51,18 @@ namespace WpfTimer
         {
             get => (int)GetValue(SecondsRemainingProperty);
             set => SetValue(SecondsRemainingProperty, value);
+        }
+
+        public int TimeRemaining
+        {
+            get => (int)GetValue(TimeRemainingProperty);
+            set => SetValue(TimeRemainingProperty, value);
+        }
+
+        public string TimeRemainingUnit
+        {
+            get => (string)GetValue(TimeRemainingUnitProperty);
+            set => SetValue(TimeRemainingUnitProperty, value);
         }
 
         public void Reset()
@@ -89,6 +107,25 @@ namespace WpfTimer
             }
         }
 
+        private void SetTimeRemainingText()
+        {
+            if (SecondsRemaining >= 3600)
+            {
+                TimeRemaining = (int)SecondsRemaining / 3600;
+                TimeRemainingUnit = "h";
+            }
+            else if (SecondsRemaining >= 60)
+            {
+                TimeRemaining = (int)SecondsRemaining / 60;
+                TimeRemainingUnit = "min";
+            }
+            else
+            {
+                TimeRemaining = SecondsRemaining;
+                TimeRemainingUnit = "sec";
+            }
+        }
+
         private void Storyboard_CurrentTimeInvalidated(object sender, EventArgs e)
         {
             ClockGroup cg = (ClockGroup)sender;
@@ -100,6 +137,8 @@ namespace WpfTimer
             TimeSpan elapsedTime = cg.CurrentTime.Value;
             SecondsRemaining = Duration == Duration.Automatic ? 0 :
                 (int)Math.Ceiling((Duration.TimeSpan - elapsedTime).TotalSeconds);
+
+            SetTimeRemainingText();
         }
 
         private void Storyboard_Completed(object sender, EventArgs e)

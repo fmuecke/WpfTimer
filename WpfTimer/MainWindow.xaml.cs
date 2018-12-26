@@ -14,6 +14,12 @@ namespace WpfTimer
 
         public static readonly RoutedCommand FullScreenCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand EnterTimeCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand TimeAcceptedCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand HideInputBoxCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -51,6 +57,47 @@ namespace WpfTimer
                 // re-show the window after changing style
                 this.Visibility = Visibility.Visible;
             }
+        }
+
+        private void EnterTimeCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ShowInputBox();
+            InputTextBox.Text = this.Timer.Duration.ToString();
+            InputTextBox.SelectAll();
+            InputTextBox.Focus();
+        }
+
+        private void TimeAcceptedCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            AcceptNewTime();
+            HideInputBox();
+        }
+
+        private void HideInputBoxCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            HideInputBox();
+        }
+
+        private void AcceptNewTime()
+        {
+            try
+            {
+                var ts = System.TimeSpan.Parse(InputTextBox.Text);
+                this.Timer.Duration = ts;
+            }
+            catch
+            { }
+        }
+
+        private void ShowInputBox()
+        {
+            InputBox.Visibility = Visibility.Visible;
+        }
+
+        private void HideInputBox()
+        {
+            InputBox.Visibility = Visibility.Collapsed;
         }
     }
 }
