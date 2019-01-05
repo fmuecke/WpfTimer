@@ -68,5 +68,14 @@ namespace WpfTimer.Properties {
                 return ResourceManager.GetStream("_395213__azumarill__door_chime", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _429422__foxzine__audience_clapping_ADPCM {
+            get {
+                return ResourceManager.GetStream("_429422__foxzine__audience_clapping_ADPCM", resourceCulture);
+            }
+        }
     }
 }

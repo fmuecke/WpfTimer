@@ -2,6 +2,7 @@
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace WpfTimer
@@ -26,6 +27,8 @@ namespace WpfTimer
             DependencyProperty.Register(nameof(TimeRemainingUnit), typeof(string), typeof(Countdown), new PropertyMetadata(string.Empty));
 
         private readonly Storyboard _storyboard = new Storyboard();
+        private MediaPlayer _mp3Player = new MediaPlayer();
+        private SoundPlayer _wavPlayer = new SoundPlayer();
 
         public Countdown()
         {
@@ -37,6 +40,7 @@ namespace WpfTimer
             _storyboard.Children.Add(animation);
 
             DataContext = this;
+            SetSoundStream();
         }
 
         public event EventHandler Elapsed;
@@ -67,6 +71,7 @@ namespace WpfTimer
 
         public void Reset()
         {
+            _wavPlayer.Stop();
             _storyboard.Stop();
 
             _storyboard.CurrentTimeInvalidated -= Storyboard_CurrentTimeInvalidated;
@@ -97,6 +102,12 @@ namespace WpfTimer
             var duration = e.NewValue;
             countdown._storyboard.Children[0].Duration = (Duration)duration;
             countdown.Reset();
+        }
+
+        private void SetSoundStream()
+        {
+            //_wavPlayer.Stream = Properties.Resources._395213__azumarill__door_chime; // beep
+            _wavPlayer.Stream = Properties.Resources._429422__foxzine__audience_clapping_ADPCM; // cheer
         }
 
         private void Countdown_Loaded(object sender, RoutedEventArgs e)
@@ -153,17 +164,30 @@ namespace WpfTimer
         private void Beep()
         {
             // see: http://windowspresentationfoundationinfo.blogspot.com/2014/10/wpf-sound.html
-            SoundPlayer player = new SoundPlayer();
-            //var file = Environment.CurrentDirectory + "\\..\\..\\..\\Sounds\\395213__azumarill__door-chime.wav";
-            //player.SoundLocation = file;
-            player.Stream = Properties.Resources._395213__azumarill__door_chime;
-
+            _wavPlayer.Stop();
             try
             {
-                player.Load();
-                player.Play();
+                _wavPlayer.Play();
             }
-            catch (Exception E) { }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
+        }
+
+        private void BeepMp3()
+        {
+            _mp3Player.Close();
+            ResourceWriter.DumpResource("403057__vesperia94__hooray.mp3", @"c:\temp\file.mp3");
+            try
+            {
+                _mp3Player.Open(new Uri(@"C:\temp\file.mp3"));
+                _mp3Player.Play();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

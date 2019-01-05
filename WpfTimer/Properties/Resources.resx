@@ -121,4 +121,7 @@
   <data name="_395213__azumarill__door_chime" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\395213__azumarill__door-chime.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="_429422__foxzine__audience_clapping_ADPCM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\429422__foxzine__audience-clapping_adpcm.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
