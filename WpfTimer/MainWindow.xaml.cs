@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WpfTimer
@@ -16,7 +17,9 @@ namespace WpfTimer
 
         public static readonly RoutedCommand EnterTimeCommand = new RoutedCommand();
 
-        public static readonly RoutedCommand TimeAcceptedCommand = new RoutedCommand();
+        public static readonly RoutedCommand SelectSoundCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand ChangeTimeCommand = new RoutedCommand();
 
         public static readonly RoutedCommand HideInputBoxCommand = new RoutedCommand();
 
@@ -64,16 +67,16 @@ namespace WpfTimer
 
         private void EnterTimeCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ShowInputBox();
+            ShowTimeInputBox();
             InputTextBox.Text = this.Timer.Duration.ToString();
             InputTextBox.SelectAll();
             InputTextBox.Focus();
         }
 
-        private void TimeAcceptedCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void ChangeTimeCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             e.Handled = true;
-            AcceptNewTime();
+            ChangeTime();
             HideInputBox();
         }
 
@@ -104,7 +107,7 @@ namespace WpfTimer
             HelpText.Visibility = Visibility.Collapsed;
         }
 
-        private void AcceptNewTime()
+        private void ChangeTime()
         {
             try
             {
@@ -115,14 +118,44 @@ namespace WpfTimer
             { }
         }
 
-        private void ShowInputBox()
+        private void ShowTimeInputBox()
         {
-            InputBox.Visibility = Visibility.Visible;
+            SoundInputBox.Visibility = Visibility.Collapsed;
+            TimeInputBox.Visibility = Visibility.Visible;
+        }
+
+        private void ShowSoundInputBox()
+        {
+            TimerSoundListBox.Items.Clear();
+
+            foreach (var e in Enum.GetValues(typeof(Countdown.SoundFile)))
+            {
+                TimerSoundListBox.Items.Add(e.ToString());
+            }
+
+            TimerSoundListBox.SelectedItem = Timer.GetCurrentSound();
+
+            TimeInputBox.Visibility = Visibility.Collapsed;
+            SoundInputBox.Visibility = Visibility.Visible;
         }
 
         private void HideInputBox()
         {
-            InputBox.Visibility = Visibility.Collapsed;
+            TimeInputBox.Visibility = Visibility.Collapsed;
+            SoundInputBox.Visibility = Visibility.Collapsed;
+            Timer.Focus();
+        }
+
+        private void SelectSoundCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ShowSoundInputBox();
+            TimerSoundListBox.Focus();
+        }
+
+        private void ChangeSoundClick(object sender, RoutedEventArgs e)
+        {
+            Timer.SetCurrentSound(TimerSoundListBox.SelectedValue.ToString());
+            HideInputBox();
         }
     }
 }

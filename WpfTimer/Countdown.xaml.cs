@@ -28,7 +28,9 @@ namespace WpfTimer
 
         private readonly Storyboard _storyboard = new Storyboard();
         private MediaPlayer _mp3Player = new MediaPlayer();
-        private SoundPlayer _wavPlayer = new SoundPlayer();
+        private SoundPlayer _soundPlayer = new SoundPlayer();
+
+        private SoundFile _currentSound;
 
         public Countdown()
         {
@@ -40,10 +42,15 @@ namespace WpfTimer
             _storyboard.Children.Add(animation);
 
             DataContext = this;
-            SetSoundStream();
+            SetCurrentSound(SoundFile.Beep);
         }
 
         public event EventHandler Elapsed;
+
+        public enum SoundFile
+        {
+            Beep, CheeringCrowd
+        }
 
         public Duration Duration
         {
@@ -71,7 +78,7 @@ namespace WpfTimer
 
         public void Reset()
         {
-            _wavPlayer.Stop();
+            _soundPlayer.Stop();
             _storyboard.Stop();
 
             _storyboard.CurrentTimeInvalidated -= Storyboard_CurrentTimeInvalidated;
@@ -96,18 +103,46 @@ namespace WpfTimer
             }
         }
 
+        public void SetCurrentSound(SoundFile s)
+        {
+            switch (s)
+            {
+                case SoundFile.Beep:
+                    _soundPlayer.Stream = Properties.Resources._395213__azumarill__door_chime;
+                    _currentSound = SoundFile.Beep;
+                    break;
+
+                case SoundFile.CheeringCrowd:
+                default:
+                    _soundPlayer.Stream = Properties.Resources._429422__foxzine__audience_clapping_ADPCM;
+                    _currentSound = SoundFile.CheeringCrowd;
+                    break;
+            }
+        }
+
+        public void SetCurrentSound(string s)
+        {
+            if (System.Enum.TryParse<SoundFile>(s, out SoundFile enumVal))
+            {
+                SetCurrentSound(enumVal);
+            }
+            else
+            {
+                SetCurrentSound(SoundFile.Beep);
+            }
+        }
+
+        public string GetCurrentSound()
+        {
+            return _currentSound.ToString();
+        }
+
         private static void OnDurationChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var countdown = obj as Countdown;
             var duration = e.NewValue;
             countdown._storyboard.Children[0].Duration = (Duration)duration;
             countdown.Reset();
-        }
-
-        private void SetSoundStream()
-        {
-            //_wavPlayer.Stream = Properties.Resources._395213__azumarill__door_chime; // beep
-            _wavPlayer.Stream = Properties.Resources._429422__foxzine__audience_clapping_ADPCM; // cheer
         }
 
         private void Countdown_Loaded(object sender, RoutedEventArgs e)
@@ -164,10 +199,10 @@ namespace WpfTimer
         private void Beep()
         {
             // see: http://windowspresentationfoundationinfo.blogspot.com/2014/10/wpf-sound.html
-            _wavPlayer.Stop();
+            _soundPlayer.Stop();
             try
             {
-                _wavPlayer.Play();
+                _soundPlayer.Play();
             }
             catch (Exception e)
             {
