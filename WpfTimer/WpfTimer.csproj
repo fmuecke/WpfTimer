@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ResourceWriter.cs" />
+    <Compile Include="SafeNativeMethods.cs" />
     <Compile Include="TempFile.cs" />
     <Page Include="Countdown.xaml">
       <SubType>Designer</SubType>
