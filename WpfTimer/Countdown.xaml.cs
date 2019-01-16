@@ -54,26 +54,26 @@ namespace WpfTimer
 
         public Duration Duration
         {
-            get => (Duration)GetValue(DurationProperty);
-            set => SetValue(DurationProperty, value);
+            get { return (Duration)GetValue(DurationProperty); }
+            set { SetValue(DurationProperty, value); }
         }
 
         public int SecondsRemaining
         {
-            get => (int)GetValue(SecondsRemainingProperty);
-            set => SetValue(SecondsRemainingProperty, value);
+            get { return  (int)GetValue(SecondsRemainingProperty); }
+            set { SetValue(SecondsRemainingProperty, value); }
         }
 
         public double TimeRemaining
         {
-            get => (double)GetValue(TimeRemainingProperty);
-            set => SetValue(TimeRemainingProperty, value);
+            get { return  (double)GetValue(TimeRemainingProperty); }
+            set { SetValue(TimeRemainingProperty, value); }
         }
 
         public string TimeRemainingUnit
         {
-            get => (string)GetValue(TimeRemainingUnitProperty);
-            set => SetValue(TimeRemainingUnitProperty, value);
+            get { return  (string)GetValue(TimeRemainingUnitProperty); }
+            set { SetValue(TimeRemainingUnitProperty, value); }
         }
 
         public void Reset()
@@ -122,7 +122,8 @@ namespace WpfTimer
 
         public void SetCurrentSound(string s)
         {
-            if (System.Enum.TryParse<SoundFile>(s, out SoundFile enumVal))
+            SoundFile enumVal;
+            if (System.Enum.TryParse<SoundFile>(s, out enumVal))
             {
                 SetCurrentSound(enumVal);
             }

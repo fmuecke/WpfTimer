@@ -28,36 +28,39 @@ namespace WpfTimer
             DependencyProperty.Register(nameof(SmallAngle), typeof(bool), typeof(Arc),
                 new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender));
 
-        static Arc() => DefaultStyleKeyProperty.OverrideMetadata(typeof(Arc), new FrameworkPropertyMetadata(typeof(Arc)));
+        static Arc()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(Arc), new FrameworkPropertyMetadata(typeof(Arc)));
+        }
 
         public Point Center
         {
-            get => (Point)GetValue(CenterProperty);
-            set => SetValue(CenterProperty, value);
+            get { return (Point)GetValue(CenterProperty); }
+            set { SetValue(CenterProperty, value); }
         }
 
         public double StartAngle
         {
-            get => (double)GetValue(StartAngleProperty);
-            set => SetValue(StartAngleProperty, value);
+            get { return (double)GetValue(StartAngleProperty); }
+            set {  SetValue(StartAngleProperty, value); }
         }
 
         public double EndAngle
         {
-            get => (double)GetValue(EndAngleProperty);
-            set => SetValue(EndAngleProperty, value);
+            get { return (double)GetValue(EndAngleProperty); }
+            set { SetValue(EndAngleProperty, value); }
         }
 
         public double Radius
         {
-            get => (double)GetValue(RadiusProperty);
-            set => SetValue(RadiusProperty, value);
+            get { return (double)GetValue(RadiusProperty); }
+            set { SetValue(RadiusProperty, value); }
         }
 
         public bool SmallAngle
         {
-            get => (bool)GetValue(SmallAngleProperty);
-            set => SetValue(SmallAngleProperty, value);
+            get { return (bool)GetValue(SmallAngleProperty); }
+            set { SetValue(SmallAngleProperty, value); }
         }
 
         protected override Geometry DefiningGeometry
