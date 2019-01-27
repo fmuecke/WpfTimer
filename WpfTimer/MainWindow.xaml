@@ -18,6 +18,10 @@
         <CommandBinding Command="local:MainWindow.HideInputBoxCommand" Executed="HideInputBoxCommandExecuted" />
         <CommandBinding Command="local:MainWindow.DisplayHelpCommand" Executed="DisplayHelpCommandExecuted" />
         <CommandBinding Command="local:MainWindow.SelectSoundCommand" Executed="SelectSoundCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.Add10SecCommand" Executed="Add10SecCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.Subtract10SecCommand" Executed="Subtract10SecCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.Add5MinCommand" Executed="Add5MinCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.Subtract5MinCommand" Executed="Subtract5MinCommandExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
@@ -26,6 +30,10 @@
         <KeyBinding Command="local:MainWindow.EnterTimeCommand" Gesture="F2" />
         <KeyBinding Command="local:MainWindow.SelectSoundCommand" Gesture="F3" />
         <KeyBinding Command="local:MainWindow.DisplayHelpCommand" Gesture="F1" />
+        <KeyBinding Command="local:MainWindow.Add10SecCommand" Gesture="Up" />
+        <KeyBinding Command="local:MainWindow.Subtract10SecCommand" Gesture="Down" />
+        <KeyBinding Command="local:MainWindow.Add5MinCommand" Gesture="Right" />
+        <KeyBinding Command="local:MainWindow.Subtract5MinCommand" Gesture="Left" />
     </Window.InputBindings>
     <Window.Resources>
         <Style x:Key="NiceButtonStyle" TargetType="{x:Type Button}">
@@ -69,8 +77,7 @@
                 Click="Button_Quit">Quit</Button>
         <Label Grid.Row="1" x:Name="HelpText"
                VerticalAlignment="Bottom"
-               HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time | F3 = Change sound</Label>
-
+               HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time | F3 = Change sound | UP/DOWN = +/- 10 Sec | LEFT/RIGHT = +/- 5 Min</Label>
         <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
         <Grid x:Name="TimeInputBox" Visibility="Collapsed" Grid.Row="1">
             <Grid Background="Black" Opacity="0.5" />

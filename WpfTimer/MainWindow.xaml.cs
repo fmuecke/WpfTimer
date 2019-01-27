@@ -25,6 +25,14 @@ namespace WpfTimer
 
         public static readonly RoutedCommand DisplayHelpCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand Add10SecCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand Subtract10SecCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand Add5MinCommand = new RoutedCommand();
+
+        public static readonly RoutedCommand Subtract5MinCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -95,6 +103,33 @@ namespace WpfTimer
             {
                 ShowHelpText();
             }
+        }
+
+
+        private void Add10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 0, 10));
+        }
+
+        private void Subtract10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            var span = new TimeSpan(0, 0, 10);
+            var oldVal = this.Timer.Duration.TimeSpan;
+            var newVal = oldVal > span ? oldVal - span : new TimeSpan();
+            this.Timer.Duration = newVal;
+        }
+
+        private void Add5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 5, 00));
+        }
+
+        private void Subtract5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            var span = new TimeSpan(0, 5, 10);
+            var oldVal = this.Timer.Duration.TimeSpan;
+            var newVal = oldVal > span ? oldVal - span : new TimeSpan();
+            this.Timer.Duration = newVal;
         }
 
         private void ShowHelpText()
