@@ -71,19 +71,6 @@
             <Label Grid.Row="1" x:Name="HelpText"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time | F3 = Change sound | UP/DOWN = +/- 10 Sec | LEFT/RIGHT = +/- 5 Min</Label>
-            <Grid Background="Black" Opacity="0.5" />
-            <Border MinWidth="120" MinHeight="65" Background="AliceBlue" BorderBrush="SlateGray" BorderThickness="2" CornerRadius="10"
-                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
-                <StackPanel>
-                    <TextBlock Margin="5" Text="Timer value" FontWeight="Bold" Foreground="SlateGray" HorizontalAlignment="Center" FontSize="16" />
-                    <TextBox x:Name="InputTextBox" MinWidth="75" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
-                        <TextBox.InputBindings>
-                            <KeyBinding Command="local:MainWindow.ChangeTimeCommand" Key="Enter" />
-                            <KeyBinding Command="local:MainWindow.HideInputBoxCommand" Key="Esc" />
-                        </TextBox.InputBindings>
-                    </TextBox>
-                </StackPanel>
-            </Border>
         </Grid>
         <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
         <Viewbox x:Name="TimeInputBox" Visibility="Collapsed" Grid.Row="1">
@@ -92,6 +79,33 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
+                <Grid Background="Black" Opacity="0.5" />
+                <Border Grid.Row="0" MinWidth="120" MinHeight="65" Background="AliceBlue" BorderBrush="SlateGray" BorderThickness="2" CornerRadius="10"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">
+                    <StackPanel>
+                        <TextBlock Margin="5" Text="Timer value" FontWeight="Bold" Foreground="SlateGray" HorizontalAlignment="Center" FontSize="16" />
+                        <TextBox x:Name="InputTextBox" MinWidth="75" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+                            <TextBox.InputBindings>
+                                <KeyBinding Command="local:MainWindow.ChangeTimeCommand" Key="Enter" />
+                                <KeyBinding Command="local:MainWindow.HideInputBoxCommand" Key="Esc" />
+                            </TextBox.InputBindings>
+                        </TextBox>
+                    </StackPanel>
+                </Border>
+                <Grid Grid.Row="1" Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Column="1" Grid.Row="0" Margin="1" Focusable="False" Command="local:MainWindow.Add10SecCommand">+ 10s</Button>
+                    <Button Grid.Column="1" Grid.Row="1" Margin="1" Focusable="False" Command="local:MainWindow.Subtract10SecCommand">- 10s</Button>
+                    <Button Grid.Column="0" Grid.Row="0" Margin="1" Focusable="False" Command="local:MainWindow.Add5MinCommand">+ 5m</Button>
+                    <Button Grid.Column="0" Grid.Row="1" Margin="1" Focusable="False" Command="local:MainWindow.Subtract5MinCommand">- 5m</Button>
+                </Grid>
             </Grid>
         </Viewbox>
         <Viewbox x:Name="SoundInputBox" Visibility="Collapsed" Grid.Row="1">

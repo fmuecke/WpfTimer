@@ -75,7 +75,7 @@ namespace WpfTimer
 
         private void EnterTimeCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ShowTimeInputBox();
+            ToggleTimeInputBox();
             InputTextBox.Text = this.Timer.Duration.ToString();
             InputTextBox.SelectAll();
             InputTextBox.Focus();
@@ -105,10 +105,15 @@ namespace WpfTimer
             }
         }
 
+        private void UpdateInputBox()
+        {
+            InputTextBox.Text = this.Timer.Duration.ToString();
+        }
 
         private void Add10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 0, 10));
+            UpdateInputBox();
         }
 
         private void Subtract10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -117,11 +122,13 @@ namespace WpfTimer
             var oldVal = this.Timer.Duration.TimeSpan;
             var newVal = oldVal > span ? oldVal - span : new TimeSpan();
             this.Timer.Duration = newVal;
+            UpdateInputBox();
         }
 
         private void Add5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 5, 00));
+            UpdateInputBox();
         }
 
         private void Subtract5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -130,6 +137,7 @@ namespace WpfTimer
             var oldVal = this.Timer.Duration.TimeSpan;
             var newVal = oldVal > span ? oldVal - span : new TimeSpan();
             this.Timer.Duration = newVal;
+            UpdateInputBox();
         }
 
         private void ShowHelpText()
@@ -153,25 +161,41 @@ namespace WpfTimer
             { }
         }
 
-        private void ShowTimeInputBox()
+        private void ToggleTimeInputBox()
         {
-            SoundInputBox.Visibility = Visibility.Collapsed;
-            TimeInputBox.Visibility = Visibility.Visible;
+            if (TimeInputBox.Visibility == Visibility.Visible)
+            {
+                TimeInputBox.Visibility = Visibility.Collapsed;
+                Timer.Focus();
+            }
+            else
+            {
+                SoundInputBox.Visibility = Visibility.Collapsed;
+                TimeInputBox.Visibility = Visibility.Visible;
+            }
         }
 
-        private void ShowSoundInputBox()
+        private void ToggleSoundInputBox()
         {
-            TimerSoundListBox.Items.Clear();
-
-            foreach (var e in Enum.GetValues(typeof(Countdown.SoundFile)))
+            if (SoundInputBox.Visibility == Visibility.Visible)
             {
-                TimerSoundListBox.Items.Add(e.ToString());
+                SoundInputBox.Visibility = Visibility.Collapsed;
+                Timer.Focus();
             }
+            else
+            {
+                TimerSoundListBox.Items.Clear();
 
-            TimerSoundListBox.SelectedItem = Timer.GetCurrentSound();
+                foreach (var e in Enum.GetValues(typeof(Countdown.SoundFile)))
+                {
+                    TimerSoundListBox.Items.Add(e.ToString());
+                }
 
-            TimeInputBox.Visibility = Visibility.Collapsed;
-            SoundInputBox.Visibility = Visibility.Visible;
+                TimerSoundListBox.SelectedItem = Timer.GetCurrentSound();
+
+                TimeInputBox.Visibility = Visibility.Collapsed;
+                SoundInputBox.Visibility = Visibility.Visible;
+            }
         }
 
         private void HideInputBox()
@@ -183,7 +207,7 @@ namespace WpfTimer
 
         private void SelectSoundCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            ShowSoundInputBox();
+            ToggleSoundInputBox();
             TimerSoundListBox.Focus();
         }
 
