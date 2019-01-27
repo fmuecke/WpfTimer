@@ -71,8 +71,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <local:Countdown Grid.Row="1" x:Name="Timer" Duration="0:2:00" MaxHeight="800" IsTabStop="True" />
-        <Button Grid.Row="0" HorizontalAlignment="Right" FontSize="14" Margin="5" Padding="5 0"
+        <local:Countdown Grid.Row="1" x:Name="Timer" Duration="0:2:00" IsTabStop="True" />
                 Style="{StaticResource NiceButtonStyle}"
                 Click="Button_Quit">Quit</Button>
         <Label Grid.Row="1" x:Name="HelpText"
