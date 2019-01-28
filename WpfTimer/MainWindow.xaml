@@ -22,6 +22,7 @@
         <CommandBinding Command="local:MainWindow.Subtract10SecCommand" Executed="Subtract10SecCommandExecuted" />
         <CommandBinding Command="local:MainWindow.Add5MinCommand" Executed="Add5MinCommandExecuted" />
         <CommandBinding Command="local:MainWindow.Subtract5MinCommand" Executed="Subtract5MinCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.ChangeSoundCommand" Executed="ChangeSoundCommandExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
@@ -118,9 +119,10 @@
                         <ListBox x:Name="TimerSoundListBox" Margin="10">
                             <ListBox.InputBindings>
                                 <KeyBinding Command="local:MainWindow.HideInputBoxCommand" Key="Esc" />
+                                <KeyBinding Command="local:MainWindow.ChangeSoundCommand" Key="Enter" />
                             </ListBox.InputBindings>
                         </ListBox>
-                        <Button Click="ChangeSoundClick" Margin="10 0 10 10" Padding="10 0" FontSize="16" HorizontalAlignment="Center" Content="Accept">
+                        <Button Command="local:MainWindow.ChangeSoundCommand" Margin="10 0 10 10" Padding="10 0" FontSize="16" HorizontalAlignment="Center" Content="Accept">
                             <Button.InputBindings>
                                 <KeyBinding Command="local:MainWindow.HideInputBoxCommand" Key="Esc" />
                             </Button.InputBindings>

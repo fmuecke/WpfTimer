@@ -33,6 +33,8 @@ namespace WpfTimer
 
         public static readonly RoutedCommand Subtract5MinCommand = new RoutedCommand();
 
+        public static readonly RoutedCommand ChangeSoundCommand = new RoutedCommand();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -211,7 +213,7 @@ namespace WpfTimer
             TimerSoundListBox.Focus();
         }
 
-        private void ChangeSoundClick(object sender, RoutedEventArgs e)
+        private void ChangeSoundCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             Timer.SetCurrentSound(TimerSoundListBox.SelectedValue.ToString());
             HideInputBox();

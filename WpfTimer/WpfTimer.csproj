@@ -138,5 +138,8 @@
   <ItemGroup>
     <None Include="Resources\429422__foxzine__audience-clapping_ADPCM.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\154954__keykrusher__kitchen-timer-x3.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

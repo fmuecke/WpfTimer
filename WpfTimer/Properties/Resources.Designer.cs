@@ -63,6 +63,15 @@ namespace WpfTimer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream _154954__keykrusher__kitchen_timer_x3 {
+            get {
+                return ResourceManager.GetStream("_154954__keykrusher__kitchen_timer_x3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream _395213__azumarill__door_chime {
             get {
                 return ResourceManager.GetStream("_395213__azumarill__door_chime", resourceCulture);

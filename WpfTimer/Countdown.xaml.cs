@@ -49,7 +49,7 @@ namespace WpfTimer
 
         public enum SoundFile
         {
-            Beep, CheeringCrowd
+            Beep, CheeringCrowd, KitchenTimer
         }
 
         public Duration Duration
@@ -60,19 +60,19 @@ namespace WpfTimer
 
         public int SecondsRemaining
         {
-            get { return  (int)GetValue(SecondsRemainingProperty); }
+            get { return (int)GetValue(SecondsRemainingProperty); }
             set { SetValue(SecondsRemainingProperty, value); }
         }
 
         public double TimeRemaining
         {
-            get { return  (double)GetValue(TimeRemainingProperty); }
+            get { return (double)GetValue(TimeRemainingProperty); }
             set { SetValue(TimeRemainingProperty, value); }
         }
 
         public string TimeRemainingUnit
         {
-            get { return  (string)GetValue(TimeRemainingUnitProperty); }
+            get { return (string)GetValue(TimeRemainingUnitProperty); }
             set { SetValue(TimeRemainingUnitProperty, value); }
         }
 
@@ -109,7 +109,12 @@ namespace WpfTimer
             {
                 case SoundFile.Beep:
                     _soundPlayer.Stream = Properties.Resources._395213__azumarill__door_chime;
-                    _currentSound = SoundFile.Beep;
+                    _currentSound = s;
+                    break;
+
+                case SoundFile.KitchenTimer:
+                    _soundPlayer.Stream = Properties.Resources._154954__keykrusher__kitchen_timer_x3;
+                    _currentSound = s;
                     break;
 
                 case SoundFile.CheeringCrowd:
