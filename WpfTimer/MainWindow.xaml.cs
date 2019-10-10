@@ -24,11 +24,42 @@ namespace WpfTimer
         public static readonly RoutedCommand ChangeSoundCommand = new RoutedCommand();
         private const int SecondsToIncrement = 30;
 
+        private double _aspectRatio = 1.0;
+        private bool? _adjustingHeight = null;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.SourceInitialized += Window_SourceInitialized;
+
+            this.Width = 450;
+            this.Height = this.Width;
+        }
+
+        internal enum SetWindowPos
+        {
+            NOMOVE = 0x0002
+        }
+
+        internal enum WindowMessages
+        {
+            WINDOWPOSCHANGING = 0x0046,
+            EXITSIZEMOVE = 0x0232,
+        }
+
         [DllImportAttribute("user32.dll")]
         public static extern bool ReleaseCapture();
+
+        public static Point GetMousePosition() // mouse position relative to screen
+        {
+            Win32Point w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+            return new Point(w32Mouse.X, w32Mouse.Y);
+        }
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
 
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
@@ -44,6 +75,66 @@ namespace WpfTimer
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+        private void Window_SourceInitialized(object sender, EventArgs ea)
+        {
+            HwndSource hwndSource = (HwndSource)HwndSource.FromVisual((Window)sender);
+            hwndSource.AddHook(DragHook);
+
+            _aspectRatio = this.Width / this.Height;
+        }
+
+        private IntPtr DragHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            switch ((WindowMessages)msg)
+            {
+                case WindowMessages.WINDOWPOSCHANGING:
+                    {
+                        WINDOWPOS pos = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+
+                        if ((pos.flags & (int)SetWindowPos.NOMOVE) != 0 || this.WindowState == WindowState.Maximized)
+                        {
+                            return IntPtr.Zero;
+                        }
+
+                        Window wnd = (Window)HwndSource.FromHwnd(hwnd).RootVisual;
+                        if (wnd == null)
+                        {
+                            return IntPtr.Zero;
+                        }
+
+                        // determine what dimension is changed by detecting the mouse position relative to the
+                        // window bounds. if gripped in the corner, either will work.
+                        if (!_adjustingHeight.HasValue)
+                        {
+                            Point p = GetMousePosition();
+
+                            double diffWidth = Math.Min(Math.Abs(p.X - pos.x), Math.Abs(p.X - pos.x - pos.cx));
+                            double diffHeight = Math.Min(Math.Abs(p.Y - pos.y), Math.Abs(p.Y - pos.y - pos.cy));
+
+                            _adjustingHeight = diffHeight > diffWidth;
+                        }
+
+                        if (_adjustingHeight.Value)
+                        {
+                            pos.cy = (int)(pos.cx / _aspectRatio); // adjusting height to width change
+                        }
+                        else
+                        {
+                            pos.cx = (int)(pos.cy * _aspectRatio); // adjusting width to heigth change
+                        }
+
+                        Marshal.StructureToPtr(pos, lParam, true);
+                        handled = true;
+                    }
+                    break;
+
+                case WindowMessages.EXITSIZEMOVE:
+                    _adjustingHeight = null; // reset adjustment dimension and detect again next time window is resized
+                    break;
+            }
+
+            return IntPtr.Zero;
         }
 
         private void Button_Quit(object sender, RoutedEventArgs e)
@@ -226,5 +317,24 @@ namespace WpfTimer
             ReleaseCapture();
             SendMessage(new WindowInteropHelper(this).Handle, 0xA1, (IntPtr)0x2, (IntPtr)0);
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WINDOWPOS
+        {
+            public IntPtr hwnd;
+            public IntPtr hwndInsertAfter;
+            public int x;
+            public int y;
+            public int cx;
+            public int cy;
+            public int flags;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
     }
 }
