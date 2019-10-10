@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 
 namespace WpfTimer
 {
@@ -25,11 +27,23 @@ namespace WpfTimer
         public MainWindow()
         {
             InitializeComponent();
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            WindowDrag(this, e);
+            base.OnMouseDown(e);
+        }
+
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             ToggleFullScreen();
             base.OnMouseDoubleClick(e);
         }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
         }
 
         private void Button_Quit(object sender, RoutedEventArgs e)
@@ -64,7 +78,6 @@ namespace WpfTimer
             {
                 this.WindowState = WindowState.Maximized;
                 this.Visibility = Visibility.Collapsed;
-                this.ResizeMode = ResizeMode.NoResize;
                 // re-show the window after changing style
                 this.Visibility = Visibility.Visible;
             }
@@ -197,6 +210,21 @@ namespace WpfTimer
         {
             Timer.SetCurrentSound(TimerSoundListBox.SelectedValue.ToString());
             HideInputBox();
+        }
+
+        //https://stackoverflow.com/questions/611298/how-to-create-a-wpf-window-without-a-border-that-can-be-resized-via-a-grip-only
+        //Attach this to the PreviewMousLeftButtonDown event of the grip control in the lower right corner of the form to resize the window
+        //private void WindowResize(object sender, MouseButtonEventArgs e) //PreviewMousLeftButtonDown
+        //{
+        //   HwndSource hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+        //   SendMessage(hwndSource.Handle, 0x112, (IntPtr)61448, IntPtr.Zero);
+        //}
+        //
+        //Attach this to the MouseDown event of your drag control to move the window in place of the title bar
+        private void WindowDrag(object sender, MouseButtonEventArgs e) // MouseDown
+        {
+            ReleaseCapture();
+            SendMessage(new WindowInteropHelper(this).Handle, 0xA1, (IntPtr)0x2, (IntPtr)0);
         }
     }
 }
