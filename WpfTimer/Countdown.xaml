@@ -10,7 +10,7 @@
         <Grid Width="100" Height="100">
             <Ellipse Width="91.5" Height="91.5" Fill="#000" Stroke="#5D605D" StrokeThickness="1.5" />
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Label Foreground="#EFEEF3" Content="{Binding TimeRemaining}" FontSize="50" Margin="0, -10, 0, 0" Background="{x:Null}" BorderBrush="{x:Null}" />
+                <Label Foreground="#EFEEF3" Content="{Binding TimeRemaining}" FontSize="42" Margin="0, -10, 0, 0" Background="{x:Null}" BorderBrush="{x:Null}" />
                 <Label Foreground="#EFEEF3" Content="{Binding TimeRemainingUnit}" HorizontalAlignment="Center" Margin="0, -15, 0, 0" />
             </StackPanel>
             <local:Arc x:Name="Arc" Center="50, 50" StartAngle="-90" EndAngle="-90" Stroke="#DC141F" StrokeThickness="7" Radius="45" />
