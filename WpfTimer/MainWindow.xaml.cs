@@ -73,6 +73,13 @@ namespace WpfTimer
             base.OnMouseDoubleClick(e);
         }
 
+        protected override void OnDeactivated(EventArgs e)
+        {
+            base.OnDeactivated(e);
+            this.Topmost = true;
+            this.Activate();
+        }
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
