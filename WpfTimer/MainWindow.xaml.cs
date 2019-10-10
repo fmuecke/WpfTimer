@@ -58,17 +58,15 @@ namespace WpfTimer
 
         private void FullScreenCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            this.Topmost = true;
             if (this.WindowState == WindowState.Maximized)
             {
                 this.WindowState = WindowState.Normal;
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
             }
             else
             {
                 this.WindowState = WindowState.Maximized;
                 this.Visibility = Visibility.Collapsed;
-                this.Topmost = true;
-                this.WindowStyle = WindowStyle.None;
                 this.ResizeMode = ResizeMode.NoResize;
                 // re-show the window after changing style
                 this.Visibility = Visibility.Visible;

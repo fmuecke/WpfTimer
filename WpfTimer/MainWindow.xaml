@@ -5,10 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTimer"
         mc:Ignorable="d"
-        WindowState="Maximized"
+        WindowState="Normal"
         WindowStyle="None"
         Background="#000"
+        ResizeMode="CanResize"
         Title="WpfTimer" Height="450" Width="450">
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+        CaptionHeight="0"
+        ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
     <Window.CommandBindings>
         <CommandBinding Command="local:MainWindow.PauseCommand" Executed="PauseCommandExecuted" />
         <CommandBinding Command="local:MainWindow.ResetCommand" Executed="ResetCommandExecuted" />
