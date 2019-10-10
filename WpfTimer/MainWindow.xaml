@@ -24,23 +24,19 @@
         <CommandBinding Command="local:MainWindow.HideInputBoxCommand" Executed="HideInputBoxCommandExecuted" />
         <CommandBinding Command="local:MainWindow.DisplayHelpCommand" Executed="DisplayHelpCommandExecuted" />
         <CommandBinding Command="local:MainWindow.SelectSoundCommand" Executed="SelectSoundCommandExecuted" />
-        <CommandBinding Command="local:MainWindow.Add10SecCommand" Executed="Add10SecCommandExecuted" />
-        <CommandBinding Command="local:MainWindow.Subtract10SecCommand" Executed="Subtract10SecCommandExecuted" />
-        <CommandBinding Command="local:MainWindow.Add5MinCommand" Executed="Add5MinCommandExecuted" />
-        <CommandBinding Command="local:MainWindow.Subtract5MinCommand" Executed="Subtract5MinCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.AddSecsCommand" Executed="AddSecsCommandExecuted" />
+        <CommandBinding Command="local:MainWindow.SubtractSecsCommand" Executed="SubtractSecsCommandExecuted" />
         <CommandBinding Command="local:MainWindow.ChangeSoundCommand" Executed="ChangeSoundCommandExecuted" />
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="local:MainWindow.PauseCommand" Gesture="Space" />
         <KeyBinding Command="local:MainWindow.ResetCommand" Gesture="Backspace" />
-        <KeyBinding Command="local:MainWindow.FullScreenCommand" Gesture="Esc" />
+        <KeyBinding Command="local:MainWindow.FullScreenCommand" Gesture="F11" />
         <KeyBinding Command="local:MainWindow.EnterTimeCommand" Gesture="F2" />
         <KeyBinding Command="local:MainWindow.SelectSoundCommand" Gesture="F3" />
         <KeyBinding Command="local:MainWindow.DisplayHelpCommand" Gesture="F1" />
-        <KeyBinding Command="local:MainWindow.Add10SecCommand" Gesture="Up" />
-        <KeyBinding Command="local:MainWindow.Subtract10SecCommand" Gesture="Down" />
-        <KeyBinding Command="local:MainWindow.Add5MinCommand" Gesture="Right" />
-        <KeyBinding Command="local:MainWindow.Subtract5MinCommand" Gesture="Left" />
+        <KeyBinding Command="local:MainWindow.AddSecsCommand" Gesture="Up" />
+        <KeyBinding Command="local:MainWindow.SubtractSecsCommand" Gesture="Down" />
     </Window.InputBindings>
     <Window.Resources>
         <Style x:Key="NiceButtonStyle" TargetType="{x:Type Button}">
@@ -71,13 +67,20 @@
     </Window.Resources>
     <Grid>
         <local:Countdown Grid.Row="1" x:Name="Timer" Duration="0:2:00" IsTabStop="True" />
-        <Grid>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Button Grid.Row="0" HorizontalAlignment="Right" FontSize="14" Margin="5" Padding="5 0" Focusable="False"
                 Style="{StaticResource NiceButtonStyle}"
                 Click="Button_Quit">Quit</Button>
-            <Label Grid.Row="1" x:Name="HelpText"
-               VerticalAlignment="Bottom"
-               HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | ESC = Toggle screen | F2 = Edit time | F3 = Change sound | UP/DOWN = +/- 10 Sec | LEFT/RIGHT = +/- 5 Min</Label>
+            <StackPanel Grid.Row="1" x:Name="HelpText" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                <Label VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="{Binding Duration, ElementName=Timer, Mode=OneWay}" Foreground="Silver" FontSize="14" />
+                <Label VerticalAlignment="Bottom" HorizontalAlignment="Right" FontSize="14" Foreground="Silver">F1 = Help | BACKSPACE = Reset | SPACE = Start/Stop | F11 = Toggle screen | F2 = Edit time | F3 = Change sound | UP/DOWN = +/- 30 Sec</Label>
+            </StackPanel>
         </Grid>
         <!-- It's important that this is in the end of the XAML as it needs to be on top of everything else! -->
         <Viewbox x:Name="TimeInputBox" Visibility="Collapsed" Grid.Row="1">
@@ -102,16 +105,13 @@
                 <Grid Grid.Row="1" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Button Grid.Column="1" Grid.Row="0" Margin="1" Focusable="False" Command="local:MainWindow.Add10SecCommand">+ 10s</Button>
-                    <Button Grid.Column="1" Grid.Row="1" Margin="1" Focusable="False" Command="local:MainWindow.Subtract10SecCommand">- 10s</Button>
-                    <Button Grid.Column="0" Grid.Row="0" Margin="1" Focusable="False" Command="local:MainWindow.Add5MinCommand">+ 5m</Button>
-                    <Button Grid.Column="0" Grid.Row="1" Margin="1" Focusable="False" Command="local:MainWindow.Subtract5MinCommand">- 5m</Button>
+                    <Button Grid.Column="0" Grid.Row="0" Margin="1" Focusable="False" Command="local:MainWindow.AddSecsCommand">+ 30s</Button>
+                    <Button Grid.Column="0" Grid.Row="1" Margin="1" Focusable="False" Command="local:MainWindow.SubtractSecsCommand">- 30s</Button>
                 </Grid>
             </Grid>
         </Viewbox>

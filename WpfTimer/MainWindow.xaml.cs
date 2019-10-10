@@ -10,30 +10,17 @@ namespace WpfTimer
     public partial class MainWindow : Window
     {
         public static readonly RoutedCommand PauseCommand = new RoutedCommand();
-
         public static readonly RoutedCommand ResetCommand = new RoutedCommand();
-
         public static readonly RoutedCommand FullScreenCommand = new RoutedCommand();
-
         public static readonly RoutedCommand EnterTimeCommand = new RoutedCommand();
-
         public static readonly RoutedCommand SelectSoundCommand = new RoutedCommand();
-
         public static readonly RoutedCommand ChangeTimeCommand = new RoutedCommand();
-
         public static readonly RoutedCommand HideInputBoxCommand = new RoutedCommand();
-
         public static readonly RoutedCommand DisplayHelpCommand = new RoutedCommand();
-
-        public static readonly RoutedCommand Add10SecCommand = new RoutedCommand();
-
-        public static readonly RoutedCommand Subtract10SecCommand = new RoutedCommand();
-
-        public static readonly RoutedCommand Add5MinCommand = new RoutedCommand();
-
-        public static readonly RoutedCommand Subtract5MinCommand = new RoutedCommand();
-
+        public static readonly RoutedCommand AddSecsCommand = new RoutedCommand();
+        public static readonly RoutedCommand SubtractSecsCommand = new RoutedCommand();
         public static readonly RoutedCommand ChangeSoundCommand = new RoutedCommand();
+        private const int SecondsToIncrement = 30;
 
         public MainWindow()
         {
@@ -110,30 +97,15 @@ namespace WpfTimer
             InputTextBox.Text = this.Timer.Duration.ToString();
         }
 
-        private void Add10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void AddSecsCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 0, 10));
+            this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 0, SecondsToIncrement));
             UpdateInputBox();
         }
 
-        private void Subtract10SecCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void SubtractSecsCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            var span = new TimeSpan(0, 0, 10);
-            var oldVal = this.Timer.Duration.TimeSpan;
-            var newVal = oldVal > span ? oldVal - span : new TimeSpan();
-            this.Timer.Duration = newVal;
-            UpdateInputBox();
-        }
-
-        private void Add5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.Timer.Duration = this.Timer.Duration.TimeSpan.Add(new TimeSpan(0, 5, 00));
-            UpdateInputBox();
-        }
-
-        private void Subtract5MinCommandExecuted(object sender, ExecutedRoutedEventArgs e)
-        {
-            var span = new TimeSpan(0, 5, 10);
+            var span = new TimeSpan(0, 0, SecondsToIncrement);
             var oldVal = this.Timer.Duration.TimeSpan;
             var newVal = oldVal > span ? oldVal - span : new TimeSpan();
             this.Timer.Duration = newVal;
