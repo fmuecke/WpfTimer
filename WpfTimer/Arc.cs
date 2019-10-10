@@ -42,7 +42,7 @@ namespace WpfTimer
         public double StartAngle
         {
             get { return (double)GetValue(StartAngleProperty); }
-            set {  SetValue(StartAngleProperty, value); }
+            set { SetValue(StartAngleProperty, value); }
         }
 
         public double EndAngle

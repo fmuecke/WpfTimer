@@ -32,6 +32,9 @@ namespace WpfTimer
 
         private SoundFile _currentSound;
 
+        private SolidColorBrush _activeBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DC141f"));
+        private SolidColorBrush _pausedBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("gray"));
+
         public Countdown()
         {
             InitializeComponent();
@@ -40,6 +43,8 @@ namespace WpfTimer
             Storyboard.SetTarget(animation, Arc);
             Storyboard.SetTargetProperty(animation, new PropertyPath(nameof(Arc.EndAngle)));
             _storyboard.Children.Add(animation);
+
+            Arc.Stroke = _pausedBrush;
 
             DataContext = this;
             SetCurrentSound(SoundFile.Beep);
@@ -95,10 +100,12 @@ namespace WpfTimer
             var state = _storyboard.GetCurrentState();
             if (_storyboard.GetIsPaused())
             {
+                Arc.Stroke = _activeBrush;
                 _storyboard.Resume();
             }
             else
             {
+                Arc.Stroke = _pausedBrush;
                 _storyboard.Pause();
             }
         }
