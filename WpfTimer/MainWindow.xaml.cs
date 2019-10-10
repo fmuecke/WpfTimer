@@ -25,6 +25,11 @@ namespace WpfTimer
         public MainWindow()
         {
             InitializeComponent();
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            ToggleFullScreen();
+            base.OnMouseDoubleClick(e);
+        }
         }
 
         private void Button_Quit(object sender, RoutedEventArgs e)
@@ -44,6 +49,11 @@ namespace WpfTimer
         }
 
         private void FullScreenCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ToggleFullScreen();
+        }
+
+        private void ToggleFullScreen()
         {
             this.Topmost = true;
             if (this.WindowState == WindowState.Maximized)
